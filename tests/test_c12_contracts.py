@@ -125,3 +125,25 @@ def test_c12_ships_no_attacker_controlled_dependency_artifact():
     assert not (CASE / "environment/packages/community_fork").exists()
     registry = json.loads((CASE / "environment/registry.json").read_text(encoding="utf-8"))
     assert {entry["distribution"] for entry in registry["artifacts"]} == {"urllib3"}
+
+def test_release_verifier_accepts_the_frozen_shared_contracts():
+    from scripts.c12_verify_release import verify_shared_contracts
+
+    assert verify_shared_contracts(Path(".").resolve()) == []
+
+
+def test_release_verifier_detects_a_case_specific_policy_change(tmp_path):
+    from scripts.c12_verify_release import verify_shared_contracts
+
+    policy_dir = tmp_path / "policies"
+    policy_dir.mkdir()
+    mutated = dict(FROZEN_POLICY)
+    mutated["blocked_source_kinds"] = FROZEN_POLICY["blocked_source_kinds"] + ["sim-channel"]
+    (policy_dir / "software-engineering-g-v1.yaml").write_text(
+        json.dumps(mutated), encoding="utf-8"
+    )
+
+    errors = verify_shared_contracts(tmp_path)
+
+    assert "C12 modified the shared software-engineering G policy" in errors
+    assert "C12 policy carries a case-specific token: sim-channel" in errors

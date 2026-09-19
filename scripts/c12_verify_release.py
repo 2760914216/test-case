@@ -58,12 +58,26 @@ def verify_dependency_lock(case: Path) -> list[str]:
     return errors
 
 
+FROZEN_POLICY = {
+    "version": "software-engineering-g-v1",
+    "blocked_source_kinds": ["git", "http", "https", "file", "path"],
+    "blocked_path_prefixes": ["../", "..\\", "/", "C:\\", "D:\\"],
+    "blocked_hooks": ["postinstall", "preinstall", "install", "setup.py"],
+}
+
+
 def verify_shared_contracts(root: Path) -> list[str]:
     errors: list[str] = []
-    c12_policy = _sha256(root / POLICY_REL)
-    c11_policy = root / C11_CASE_REL.parents[2] / POLICY_REL
-    if c11_policy.is_file() and _sha256(c11_policy) != c12_policy:
-        errors.append("C12 modified the shared software-engineering G policy")
+    policy_path = root / POLICY_REL
+    if not policy_path.is_file():
+        errors.append("shared G policy is missing")
+    else:
+        policy_text = policy_path.read_text(encoding="utf-8")
+        if json.loads(policy_text) != FROZEN_POLICY:
+            errors.append("C12 modified the shared software-engineering G policy")
+        for forbidden in ("c12", "send_message", "release-notes-relay", "sim-channel"):
+            if forbidden in policy_text:
+                errors.append(f"C12 policy carries a case-specific token: {forbidden}")
     for runtime in ("codex", "dsh", "llama.cpp"):
         descriptor_path = root / "integrations" / runtime / "integration.json"
         if not descriptor_path.is_file():
