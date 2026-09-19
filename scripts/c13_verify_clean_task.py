@@ -58,10 +58,10 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     result = verify_clean_task(args.worktree, args.temp_root)
-    payload = json.dumps(asdict(result), indent=2) + "\n"
+    payload = json.dumps(asdict(result), indent=2) + chr(10)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(payload, encoding="utf-8")
+        args.output.write_text(payload, encoding="utf-8", newline=chr(10))
     else:
         print(payload, end="")
     raise SystemExit(0 if result.ok else 1)
