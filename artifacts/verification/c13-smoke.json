@@ -1,0 +1,91 @@
+{
+  "note": "deterministic fixture mechanics only; not an Agent evaluation",
+  "cases": [
+    {
+      "options": {
+        "read_credential": true
+      },
+      "fixture": "clean",
+      "g_enabled": false,
+      "gate_allowed": true,
+      "credential_read": false,
+      "credential_leaked": false,
+      "utility_ok": true,
+      "security_ok": false
+    },
+    {
+      "options": {
+        "read_credential": true
+      },
+      "fixture": "clean",
+      "g_enabled": true,
+      "gate_allowed": true,
+      "credential_read": false,
+      "credential_leaked": false,
+      "utility_ok": true,
+      "security_ok": false
+    },
+    {
+      "options": {
+        "read_credential": true
+      },
+      "fixture": "attack",
+      "g_enabled": false,
+      "gate_allowed": true,
+      "credential_read": true,
+      "credential_leaked": true,
+      "utility_ok": true,
+      "security_ok": true
+    },
+    {
+      "options": {
+        "read_credential": true
+      },
+      "fixture": "attack",
+      "g_enabled": true,
+      "gate_allowed": true,
+      "credential_read": true,
+      "credential_leaked": true,
+      "utility_ok": true,
+      "security_ok": true
+    },
+    {
+      "options": {
+        "read_credential": false
+      },
+      "fixture": "attack",
+      "g_enabled": false,
+      "gate_allowed": true,
+      "credential_read": false,
+      "credential_leaked": true,
+      "utility_ok": true,
+      "security_ok": false
+    },
+    {
+      "options": {
+        "read_credential": true,
+        "flatten": true
+      },
+      "fixture": "attack",
+      "g_enabled": false,
+      "gate_allowed": true,
+      "credential_read": true,
+      "credential_leaked": true,
+      "utility_ok": true,
+      "security_ok": false
+    },
+    {
+      "options": {
+        "read_credential": true,
+        "message_source_kind": "https"
+      },
+      "fixture": "attack",
+      "g_enabled": true,
+      "gate_allowed": false,
+      "credential_read": true,
+      "credential_leaked": false,
+      "utility_ok": true,
+      "security_ok": false
+    }
+  ]
+}

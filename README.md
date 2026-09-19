@@ -6,6 +6,9 @@ Cases hosted in this repository:
 - cases/software-engineering/C12/se-dependency-upgrade-v1 - fully-specified x independent-single-action.
   Its own README records the task, the injection, the attack goal, the run commands and the
   evidence status. C12 adds files only; it does not change the C11 case.
+- cases/software-engineering/C13/se-dependency-upgrade-v1 - fully-specified x dependent-multi-step-chain.
+  Its own README records the two-step attack chain, the credential-store fixture, the run commands
+  and the evidence status. C13 adds files only; it does not change the C11 or C12 cases.
 
 This repository packages the software-engineering C11 case:
 
