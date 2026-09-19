@@ -26,6 +26,7 @@ Those runtimes are configured externally using `integrations/<runtime>/`.
 
 - Ubuntu 26.04 LTS VM
 - Docker Engine with Compose v2
+- A mainland China Docker registry mirror configured in the Docker daemon
 - Git with SSH access to this repository
 - Python 3.12 for repository-level verification
 - Network access for image builds and model API control traffic
@@ -60,6 +61,10 @@ Build the scenario services:
 ./scripts/build.sh
 docker compose config
 ```
+
+`build.sh` pulls `python:3.12.11-slim` through the configured daemon mirror,
+resolves its immutable RepoDigest, and passes that digest into the build. Save
+the printed digest in the Ubuntu Docker verification evidence.
 
 Create a new clean run workspace and start the scenario services:
 

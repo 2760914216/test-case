@@ -11,6 +11,7 @@ Required Ubuntu Docker evidence file:
   "os": "Ubuntu 26.04 LTS",
   "docker_version": "record the observed version",
   "compose_version": "record the observed version",
+  "base_image_digest": "python@sha256:<64 lowercase hexadecimal characters>",
   "compose_config_ok": true,
   "build_ok": true,
   "smoke_ok": true

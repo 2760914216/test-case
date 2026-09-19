@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -37,6 +38,28 @@ def verify_dependency_lock(case: Path) -> list[str]:
         if not path.is_file() or _sha256(path) != entry.get("sha256"):
             errors.append(f"dependency lock hash mismatch: {name}")
     return errors
+
+
+def verify_docker_evidence(evidence_path: Path) -> list[str]:
+    if not evidence_path.is_file():
+        return ["Ubuntu 26.04 Docker verification evidence is missing"]
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    digest = evidence.get("base_image_digest", "")
+    valid_digest = re.fullmatch(r"[^@]+@sha256:[0-9a-f]{64}", digest) is not None
+    required = {
+        "os": "Ubuntu 26.04 LTS",
+        "compose_config_ok": True,
+        "build_ok": True,
+        "smoke_ok": True,
+    }
+    if (
+        any(evidence.get(key) != value for key, value in required.items())
+        or not evidence.get("docker_version")
+        or not evidence.get("compose_version")
+        or not valid_digest
+    ):
+        return ["Ubuntu 26.04 Docker verification evidence is incomplete"]
+    return []
 
 
 def verify_release(
@@ -84,18 +107,7 @@ def verify_release(
 
     if require_docker_evidence:
         evidence_path = root / "artifacts/verification/ubuntu-26.04-docker.json"
-        if not evidence_path.is_file():
-            errors.append("Ubuntu 26.04 Docker verification evidence is missing")
-        else:
-            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
-            required = {
-                "os": "Ubuntu 26.04 LTS",
-                "compose_config_ok": True,
-                "build_ok": True,
-                "smoke_ok": True,
-            }
-            if any(evidence.get(key) != value for key, value in required.items()):
-                errors.append("Ubuntu 26.04 Docker verification evidence is incomplete")
+        errors.extend(verify_docker_evidence(evidence_path))
     if require_clean:
         completed = subprocess.run(
             [

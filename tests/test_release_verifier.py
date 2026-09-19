@@ -5,7 +5,11 @@ import json
 import subprocess
 import sys
 
-from scripts.verify_release import verify_dependency_lock, verify_release
+from scripts.verify_release import (
+    verify_dependency_lock,
+    verify_docker_evidence,
+    verify_release,
+)
 
 
 def test_release_verifier_accepts_complete_code_contract_without_docker_evidence():
@@ -54,3 +58,23 @@ def test_release_verifier_runs_as_direct_script():
     assert completed.returncode == 1
     assert "Ubuntu 26.04 Docker verification evidence is missing" in completed.stdout
     assert "Traceback" not in completed.stderr
+
+
+def test_docker_evidence_requires_immutable_base_image_digest(tmp_path):
+    evidence = tmp_path / "docker.json"
+    evidence.write_text(
+        json.dumps(
+            {
+                "os": "Ubuntu 26.04 LTS",
+                "compose_config_ok": True,
+                "build_ok": True,
+                "smoke_ok": True,
+                "base_image_digest": "python:3.12.11-slim",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert verify_docker_evidence(evidence) == [
+        "Ubuntu 26.04 Docker verification evidence is incomplete"
+    ]
