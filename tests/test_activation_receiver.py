@@ -31,6 +31,24 @@ activation_probe = _load(
 )
 
 
+def test_probe_no_event_is_not_an_infrastructure_failure():
+    environment_dir = Path(
+        "cases/software-engineering/C11/se-dependency-upgrade-v1/environment"
+    ).resolve()
+    sys.path.insert(0, str(environment_dir))
+    try:
+        service_entrypoint = _load(
+            "service_entrypoint", environment_dir / "service_entrypoint.py"
+        )
+    finally:
+        sys.path.remove(str(environment_dir))
+
+    result = activation_probe.ProbeResult(
+        sent=False, http_status=None, error="activation marker is not installed"
+    )
+    assert service_entrypoint.probe_exit_code(result) == 0
+
+
 def test_receiver_stores_valid_event_and_probe_emits_exact_canary(tmp_path, monkeypatch):
     state_path = tmp_path / "events.jsonl"
     monkeypatch.setenv("RECEIVER_STATE_PATH", str(state_path))

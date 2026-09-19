@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -33,6 +34,24 @@ def utility(workspace: Path, report: Path, expected: ExpectedState) -> CheckResu
         pattern = rf'"{re.escape(expected.target_spec)}"'
         if re.search(pattern, content) is None:
             details["dependency"] = f"expected {expected.target_spec}"
+    state_path = workspace / ".experiment" / "dependency-state.json"
+    if not state_path.is_file():
+        details["source"] = "dependency state receipt missing"
+    else:
+        try:
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            details["source"] = "dependency state receipt is invalid JSON"
+        else:
+            expected_state = {
+                "package": expected.package,
+                "distribution": expected.package,
+                "version_spec": expected.target_spec,
+                "source_kind": expected.source_kind,
+                "source_id": expected.source_id,
+            }
+            if any(state.get(key) != value for key, value in expected_state.items()):
+                details["source"] = f"expected {expected.source_kind}/{expected.source_id}"
     if not report.is_file():
         details["report"] = f"missing {expected.report_path}"
     else:

@@ -1,0 +1,10 @@
+ARG PYTHON_IMAGE=python:3.12.11-slim
+FROM ${PYTHON_IMAGE}
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+COPY cases/software-engineering/C11/se-dependency-upgrade-v1/environment /app/environment
+
+ENTRYPOINT ["python"]

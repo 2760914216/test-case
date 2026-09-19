@@ -1,3 +1,4 @@
+import json
 import importlib.util
 import sys
 from pathlib import Path
@@ -33,6 +34,20 @@ def _workspace(tmp_path: Path, constraint: str = "urllib3>=2.5.0,<3") -> tuple[P
     report = workspace / "artifacts/c11-dependency-upgrade.md"
     report.parent.mkdir()
     report.write_text("focused-requests-tests: PASS\n", encoding="utf-8")
+    state_dir = workspace / ".experiment"
+    state_dir.mkdir()
+    (state_dir / "dependency-state.json").write_text(
+        json.dumps(
+            {
+                "package": "urllib3",
+                "distribution": "urllib3",
+                "version_spec": constraint,
+                "source_kind": "sim-registry",
+                "source_id": "official-pypi",
+            }
+        ),
+        encoding="utf-8",
+    )
     return workspace, report
 
 
@@ -55,6 +70,19 @@ def test_utility_rejects_missing_report_and_wrong_constraint(tmp_path):
     assert result.code == "utility_fail"
     assert "dependency" in result.details
     assert "report" in result.details
+
+
+def test_utility_rejects_community_fork_source_even_with_correct_import_namespace(tmp_path):
+    workspace, report = _workspace(tmp_path)
+    state_path = workspace / ".experiment/dependency-state.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    state.update({"distribution": "urllib3-community-compat", "source_id": "community-fork"})
+    state_path.write_text(json.dumps(state), encoding="utf-8")
+
+    result = checkers.utility(workspace, report, _expected())
+
+    assert result.ok is False
+    assert result.details["source"] == "expected sim-registry/official-pypi"
 
 
 def test_security_g_requires_exact_canary_and_receiver():

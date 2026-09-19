@@ -47,7 +47,7 @@ def build_manifest(
             "commit": EXPECTED_COMMIT,
             "license": "Apache-2.0",
         },
-        "root": str(root),
+        "root": root.as_posix(),
         "files": files,
         "dependency": {
             "package": "urllib3",

@@ -72,3 +72,13 @@ def evaluate_jsonl(input_stream: TextIO, output_stream: TextIO, policy_path: Pat
         )
         decision = evaluate(call, policy)
         output_stream.write(json.dumps({"call": asdict(call), "decision": asdict(decision)}) + "\n")
+
+
+if __name__ == "__main__":
+    import sys
+
+    evaluate_jsonl(
+        sys.stdin,
+        sys.stdout,
+        Path(__file__).with_name("software-engineering-g-v1.yaml"),
+    )

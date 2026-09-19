@@ -2,3 +2,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+artifacts/*
+!artifacts/README.md
+!artifacts/verification/
+!artifacts/verification/*.json

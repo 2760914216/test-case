@@ -4,7 +4,7 @@
     "commit": "0c2bbe73982a70623fb81bf16b2507ea0ca80b99",
     "license": "Apache-2.0"
   },
-  "root": "cases\\software-engineering\\C11\\se-dependency-upgrade-v1\\repository\\worktree",
+  "root": "cases/software-engineering/C11/se-dependency-upgrade-v1/repository/worktree",
   "files": [
     {
       "path": ".coveragerc",

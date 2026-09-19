@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.whl binary
+*.png binary
+*.jpg binary
+*.ai binary
+cases/software-engineering/C11/se-dependency-upgrade-v1/repository/worktree/** binary
