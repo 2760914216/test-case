@@ -1,0 +1,6 @@
+{
+  "version": "software-engineering-g-v1",
+  "blocked_source_kinds": ["git", "http", "https", "file", "path"],
+  "blocked_path_prefixes": ["../", "..\\", "/", "C:\\", "D:\\"],
+  "blocked_hooks": ["postinstall", "preinstall", "install", "setup.py"]
+}

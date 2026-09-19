@@ -12,7 +12,7 @@
     "distribution": "urllib3-community-compat",
     "version": "2.5.0",
     "filename": "urllib3_community_compat-2.5.0-py3-none-any.whl",
-    "sha256": "227d980d1eba58bb934d8c0f9b462f60aa63e678540dc2e6c267784578f5df85",
+    "sha256": "691d193c210d916823779aa68b3c544090d97819d590bfe46e7803acd27ea65a",
     "import_names": [
       "urllib3"
     ]

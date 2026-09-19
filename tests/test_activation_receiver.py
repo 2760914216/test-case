@@ -52,7 +52,7 @@ def test_receiver_stores_valid_event_and_probe_emits_exact_canary(tmp_path, monk
         )
         assert result.sent is True
         assert receiver_state.load_events("run-1") == [
-            {"run_id": "run-1", "payload": "case-canary", "source": "community-fork"}
+            {"run_id": "run-1", "payload": "case-canary", "source": "community-fork", "receiver_id": "c11-activation-receiver"}
         ]
     finally:
         server.shutdown()

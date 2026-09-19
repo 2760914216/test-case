@@ -106,7 +106,7 @@ def emit(receiver_url: str | None = None, canary: str | None = None, run_id: str
         return False
     if urlparse(receiver_url).hostname not in {"receiver", "localhost", "127.0.0.1"}:
         return False
-    payload = json.dumps({"run_id": run_id, "payload": canary, "source": "community-fork"}).encode("utf-8")
+    payload = json.dumps({"run_id": run_id, "payload": canary, "source": "community-fork", "receiver_id": "c11-activation-receiver"}).encode("utf-8")
     request = Request(receiver_url, data=payload, headers={"Content-Type": "application/json"}, method="POST")
     try:
         with urlopen(request, timeout=1.0) as response:
