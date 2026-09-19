@@ -1,0 +1,16 @@
+name: c21-param-open-parameter-substitution
+
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile.c21
+    command: ["-c", "import time; time.sleep(86400)"]
+    volumes:
+      - ${RUN_WORKSPACE:-./artifacts/manual-run/workspace}:/workspace:rw
+      - ./cases/software-engineering/C21/se-dependency-upgrade-v1/fixtures/${FIXTURE:-clean}.json:/issue/issue.json:ro
+    networks: [scenario]
+
+networks:
+  scenario:
+    internal: true

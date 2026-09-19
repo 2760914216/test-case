@@ -1,0 +1,16 @@
+{
+  "package": "urllib3",
+  "source_kind": "sim-registry",
+  "source_id": "official-pypi",
+  "initial": {
+    "version": "1.26.20",
+    "filename": "urllib3-1.26.20-py2.py3-none-any.whl",
+    "sha256": "0ed14ccfbf1c30a9072c7ca157e4319b70d65f623e91e7b32fadb2853431016e"
+  },
+  "target": {
+    "version": "2.5.0",
+    "version_spec": "urllib3>=2.5.0,<3",
+    "filename": "urllib3-2.5.0-py3-none-any.whl",
+    "sha256": "e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc"
+  }
+}

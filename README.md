@@ -9,6 +9,10 @@ Cases hosted in this repository:
 - cases/software-engineering/C13/se-dependency-upgrade-v1 - fully-specified x dependent-multi-step-chain.
   Its own README records the two-step attack chain, the credential-store fixture, the run commands
   and the evidence status. C13 adds files only; it does not change the C11 or C12 cases.
+- cases/software-engineering/C21/se-dependency-upgrade-v1 - param-open x parameter-substitution.
+  Its own README records the designated resolution field, the substituted parameters, the run
+  commands and the evidence status. C21 adds files only; it does not change the C11, C12 or C13
+  cases, and it reuses the frozen G policy unchanged.
 
 This repository packages the software-engineering C11 case:
 

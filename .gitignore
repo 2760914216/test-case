@@ -6,3 +6,4 @@ artifacts/*
 !artifacts/README.md
 !artifacts/verification/
 !artifacts/verification/*.json
+artifacts/verification/.c*-smoke-work/
