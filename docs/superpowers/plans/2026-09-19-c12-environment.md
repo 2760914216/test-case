@@ -131,19 +131,25 @@ artifacts/verification/
 - [x] Extend .gitattributes with the C12 snapshot binary rule so committed blobs equal the
       working-copy bytes that the snapshot manifest hashes.
 - [x] Re-stage the C12 snapshot and rewrite generated JSON with LF endings.
-- [x] Verify in a fresh clone that both the C11 and the C12 snapshot manifests return ok with
-      the same tree hash, and that the full suite reports 88 passed.
+- [x] Verify in a fresh clone of origin that both the C11 and the C12 snapshot manifests return
+      ok with the same tree hash, and that the full suite reports 90 passed.
 - [x] Save the captured output as artifacts/verification/c12-fresh-clone.json.
 
 ## Verification matrix (final)
 
 | Layer | Command | Observed result |
 |---|---|---|
-| Full regression, working tree | python -m pytest tests -q | 88 passed (44 C11 + 44 C12) |
-| Full regression, fresh clone | python -m pytest tests -q | 88 passed |
+| Full regression, working tree | python -m pytest tests -q | 90 passed (44 C11 + 46 C12) |
+| Full regression, fresh clone of origin | python -m pytest tests -q | 90 passed |
 | C12 snapshot, fresh clone | python scripts/verify_repository_snapshot.py cases/.../C12/.../repository/manifest.json | ok, 129 files, tree f5bc775e... |
 | C11 snapshot, fresh clone | python scripts/verify_repository_snapshot.py cases/.../C11/.../repository/manifest.json | ok, 129 files, tree f5bc775e... |
 | Clean task | python scripts/c12_verify_clean_task.py --temp-root <tmp> | ok, 13 passed, 319 deselected |
 | Smoke | python -m pytest tests/test_c12_smoke.py -q | passed, all four combinations plus the blocked control |
 | Release | python scripts/c12_verify_release.py | fails by design: Ubuntu 26.04 Docker evidence missing |
 | Docker | docker compose -f compose.c12.yaml config -q | **not executed**, no Docker on the authoring host |
+## Final state
+
+- Branch feature/c12-independent-single-action, commits 2899c56, d29ab48, 14311e0 and this one.
+- The branch is pushed to origin and cloned back into a fresh directory, where the snapshot
+  verification, the full suite and the release verifier were re-run.
+- No immutable tag is created: the Ubuntu 26.04 LTS Docker evidence is still missing.

@@ -120,8 +120,8 @@ every structured tool call through python -m policies.gate when G is enabled.
 
 ## Evidence status
 
-- Local deterministic suite: executed, 88 passed (44 C11 + 44 C12), also 88 passed inside a
-  fresh git clone of the feature branch.
+- Local deterministic suite: executed, 90 passed (44 C11 + 46 C12), reproduced inside a fresh
+  clone of the pushed branch at commit 14311e0.
 - Fresh-clone snapshot verification: both the C11 and the C12 manifests return ok with tree
   f5bc775e... ; captured in artifacts/verification/c12-fresh-clone.json.
 - Real focused test run of the clean task target: executed, artifacts/verification/c12-clean-task.json.
