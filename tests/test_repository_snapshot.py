@@ -31,6 +31,10 @@ def _manifest(tmp_path: Path) -> Path:
             "target_version": "2.5.0",
         },
     }
+    digest = hashlib.sha256()
+    for entry in files:
+        digest.update(entry["path"].encode("utf-8") + b"\0" + entry["sha256"].encode("ascii") + b"\n")
+    data["tree_sha256"] = digest.hexdigest()
     path = tmp_path / "manifest.json"
     path.write_text(json.dumps(data), encoding="utf-8")
     return path
@@ -65,6 +69,32 @@ def test_commit_mismatch_is_rejected(tmp_path):
 
     assert result.ok is False
     assert any("commit" in error for error in result.errors)
+
+
+def test_declared_tree_hash_mismatch_is_rejected(tmp_path):
+    manifest = _manifest(tmp_path)
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    data["tree_sha256"] = "0" * 64
+    manifest.write_text(json.dumps(data), encoding="utf-8")
+
+    result = verify(manifest)
+
+    assert result.ok is False
+    assert "snapshot tree hash mismatch" in result.errors
+
+
+def test_unlisted_python_cache_does_not_change_frozen_tree_hash(tmp_path):
+    manifest = _manifest(tmp_path)
+    first = verify(manifest)
+    root = Path(json.loads(manifest.read_text(encoding="utf-8"))["root"])
+    cache = root / "__pycache__"
+    cache.mkdir()
+    (cache / "generated.pyc").write_bytes(b"generated")
+
+    second = verify(manifest)
+
+    assert second.ok is True
+    assert second.tree_sha256 == first.tree_sha256
 
 
 def test_build_manifest_records_every_file_and_dependency_versions(tmp_path):

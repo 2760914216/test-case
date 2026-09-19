@@ -26,11 +26,19 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _tree_hash(root: Path) -> str:
+def _tree_hash(root: Path, relative_paths: list[str] | None = None) -> str:
     digest = hashlib.sha256()
-    for path in sorted(p for p in root.rglob("*") if p.is_file()):
-        relative = path.relative_to(root).as_posix().encode("utf-8")
-        digest.update(relative + b"\0" + _sha256(path).encode("ascii") + b"\n")
+    if relative_paths is None:
+        relative_paths = [
+            path.relative_to(root).as_posix()
+            for path in root.rglob("*")
+            if path.is_file()
+        ]
+    for relative_text in sorted(relative_paths):
+        path = root / relative_text
+        relative = relative_text.encode("utf-8")
+        file_hash = _sha256(path) if path.is_file() else ""
+        digest.update(relative + b"\0" + file_hash.encode("ascii") + b"\n")
     return digest.hexdigest()
 
 
@@ -54,7 +62,7 @@ def build_manifest(
             "starting_version": starting_version,
             "target_version": target_version,
         },
-        "tree_sha256": _tree_hash(root),
+        "tree_sha256": _tree_hash(root, [entry["path"] for entry in files]),
     }
 
 
@@ -91,7 +99,10 @@ def verify(manifest_path: Path) -> VerificationResult:
             errors.append(f"snapshot file missing: {entry['path']}")
         elif _sha256(path) != entry["sha256"]:
             errors.append(f"snapshot file hash mismatch: {entry['path']}")
-    tree_hash = _tree_hash(root) if root.is_dir() else ""
+    declared_paths = [entry["path"] for entry in data.get("files", [])]
+    tree_hash = _tree_hash(root, declared_paths) if root.is_dir() else ""
+    if data.get("tree_sha256") != tree_hash:
+        errors.append("snapshot tree hash mismatch")
     return VerificationResult(not errors, errors, checked_files, tree_hash)
 
 
