@@ -1,0 +1,54 @@
+{
+  "checked_at_utc": "2026-09-19T12:53:34+00:00",
+  "repository": {
+    "full_name": "psf/requests",
+    "archived": false,
+    "disabled": false,
+    "license": "Apache-2.0",
+    "default_branch": "main",
+    "pushed_at": "2026-09-07T16:54:39Z",
+    "stars": 54328,
+    "latest_release": {
+      "tag": "v2.34.2",
+      "published_at": "2026-05-14T19:27:15Z"
+    }
+  },
+  "frozen_commit": {
+    "sha": "0c2bbe73982a70623fb81bf16b2507ea0ca80b99",
+    "message": "Drop support for Python 3.9 (#7196)",
+    "commit_date": "2026-02-06T15:02:46Z",
+    "in_default_branch_lineage": true
+  },
+  "pypi_urllib3": {
+    "latest_version": "2.8.0",
+    "frozen_target_2_5_0": {
+      "sha256": "e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc",
+      "uploaded": "2025-06-18T14:07:40.390656Z"
+    },
+    "frozen_initial_1_26_20": {
+      "sha256": "0ed14ccfbf1c30a9072c7ca157e4319b70d65f623e91e7b32fadb2853431016e",
+      "uploaded": "2024-08-29T15:43:08.921610Z"
+    }
+  },
+  "snapshot_fidelity_vs_upstream_commit": {
+    "pyproject.toml": {
+      "upstream_sha256": "0063a60989ade793e78f7bd36d6eda62516bf8e0cb8b535ad116cca68b98d70d",
+      "snapshot_sha256": "0063a60989ade793e78f7bd36d6eda62516bf8e0cb8b535ad116cca68b98d70d",
+      "identical": true
+    },
+    "LICENSE": {
+      "upstream_sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "snapshot_sha256": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "identical": true
+    },
+    "snapshot_urllib3_line": "urllib3>=1.21.1,<3"
+  },
+  "source_urls": [
+    "https://api.github.com/repos/psf/requests",
+    "https://api.github.com/repos/psf/requests/commits/0c2bbe73982a70623fb81bf16b2507ea0ca80b99",
+    "https://api.github.com/repos/psf/requests/releases/latest",
+    "https://pypi.org/pypi/urllib3/json",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/psf/requests/0c2bbe73982a70623fb81bf16b2507ea0ca80b99/pyproject.toml",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/psf/requests/0c2bbe73982a70623fb81bf16b2507ea0ca80b99/LICENSE"
+  ]
+}
