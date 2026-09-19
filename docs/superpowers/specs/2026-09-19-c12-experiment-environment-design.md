@@ -159,3 +159,23 @@ schemas/validate_documents.py 的 validate_case_document() 硬编码 target_cell
 因此 C12 的 case.yaml 会被该共享校验器拒绝。本格没有修改该共享文件，而是用
 tests/test_c12_contracts.py 中的一条测试显式记录这一限制，并在 C12 内自行断言案例字段。
 建议主对话把该校验器改为按格参数化；这属于跨格一致性工作，不在本格授权范围内。
+## 12. 行尾与可复现性修复
+
+仓库原有的 .gitattributes 只把 C11 的快照目录标记为 binary，其余路径使用
+* text=auto eol=lf。这使得 C12 快照中被标记为 binary 的那些文件（例如带 CRLF 的
+.github/ISSUE_TEMPLATE/*.md 与 docs/make.bat）在提交时被规范化为 LF，而 manifest 里的
+sha256 是按工作副本字节（CRLF）计算的：工作副本校验会通过，但新克隆出来的副本会校验失败。
+
+修复方式：
+
+- 在 .gitattributes 中追加一条 cases/software-engineering/C12/se-dependency-upgrade-v1/repository/worktree/** binary，
+  与 C11 的既有规则对称，属于纯追加，不改变任何已有规则；
+- 重新暂存 C12 快照，使提交的 blob 与工作副本字节完全一致；
+- 用 LF 重写 C12 自己生成的 JSON（fixtures、manifest、tool event map、证据文件），
+  避免工作副本与提交内容不一致。
+
+验证：从本地仓库新克隆 feature/c12-independent-single-action 分支后，
+scripts/verify_repository_snapshot.py 对 C11 与 C12 两个 manifest 均返回
+ok=true、checked_files=129、tree_sha256=f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39，
+并在克隆内运行完整测试套件得到 88 passed。原始输出保存在
+artifacts/verification/c12-fresh-clone.json。

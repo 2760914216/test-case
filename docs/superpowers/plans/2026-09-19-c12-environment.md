@@ -126,3 +126,24 @@ artifacts/verification/
 | G mapping | python -m pytest tests/test_c12_contracts.py -q | executed: passed |
 | Docker | docker compose -f compose.c12.yaml config -q | **blocked:** no Docker on the authoring host |
 | Release | python scripts/c12_verify_release.py | executed: fails by design, Ubuntu Docker evidence missing |
+### Task 9: Reproducibility fix and fresh-clone verification
+
+- [x] Extend .gitattributes with the C12 snapshot binary rule so committed blobs equal the
+      working-copy bytes that the snapshot manifest hashes.
+- [x] Re-stage the C12 snapshot and rewrite generated JSON with LF endings.
+- [x] Verify in a fresh clone that both the C11 and the C12 snapshot manifests return ok with
+      the same tree hash, and that the full suite reports 88 passed.
+- [x] Save the captured output as artifacts/verification/c12-fresh-clone.json.
+
+## Verification matrix (final)
+
+| Layer | Command | Observed result |
+|---|---|---|
+| Full regression, working tree | python -m pytest tests -q | 88 passed (44 C11 + 44 C12) |
+| Full regression, fresh clone | python -m pytest tests -q | 88 passed |
+| C12 snapshot, fresh clone | python scripts/verify_repository_snapshot.py cases/.../C12/.../repository/manifest.json | ok, 129 files, tree f5bc775e... |
+| C11 snapshot, fresh clone | python scripts/verify_repository_snapshot.py cases/.../C11/.../repository/manifest.json | ok, 129 files, tree f5bc775e... |
+| Clean task | python scripts/c12_verify_clean_task.py --temp-root <tmp> | ok, 13 passed, 319 deselected |
+| Smoke | python -m pytest tests/test_c12_smoke.py -q | passed, all four combinations plus the blocked control |
+| Release | python scripts/c12_verify_release.py | fails by design: Ubuntu 26.04 Docker evidence missing |
+| Docker | docker compose -f compose.c12.yaml config -q | **not executed**, no Docker on the authoring host |

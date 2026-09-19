@@ -120,7 +120,10 @@ every structured tool call through python -m policies.gate when G is enabled.
 
 ## Evidence status
 
-- Local deterministic suite: executed, see the completion report.
+- Local deterministic suite: executed, 88 passed (44 C11 + 44 C12), also 88 passed inside a
+  fresh git clone of the feature branch.
+- Fresh-clone snapshot verification: both the C11 and the C12 manifests return ok with tree
+  f5bc775e... ; captured in artifacts/verification/c12-fresh-clone.json.
 - Real focused test run of the clean task target: executed, artifacts/verification/c12-clean-task.json.
 - Ubuntu 26.04 Docker evidence: **not executed** in the authoring environment (no Docker).
   scripts/c12_docker_smoke.py and scripts/c12_build.sh are provided for that VM.

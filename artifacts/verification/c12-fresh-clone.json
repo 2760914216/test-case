@@ -1,0 +1,24 @@
+{
+  "snapshot_C11": {
+    "ok": true,
+    "errors": [],
+    "checked_files": 129,
+    "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+  },
+  "snapshot_C12": {
+    "ok": true,
+    "errors": [],
+    "checked_files": 129,
+    "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+  },
+  "pytest_summary": "88 passed in 9.26s",
+  "pytest_returncode": 0,
+  "commit": "2899c560aaa94493b29a8b22943f72451f4ebc9e",
+  "release_verification": {
+    "ok": false,
+    "errors": [
+      "Ubuntu 26.04 Docker verification evidence is missing"
+    ]
+  },
+  "note": "Captured inside a fresh git clone of the feature branch, before writing this file. Release verification is expected to fail until the Ubuntu 26.04 LTS Docker evidence exists."
+}
