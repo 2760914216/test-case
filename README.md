@@ -60,11 +60,15 @@ Build the scenario services:
 ```bash
 ./scripts/build.sh
 docker compose config
+./scripts/docker_smoke.sh docker-smoke-001
 ```
 
 `build.sh` pulls `python:3.12.11-slim` through the configured daemon mirror,
 resolves its immutable RepoDigest, and passes that digest into the build. Save
 the printed digest in the Ubuntu Docker verification evidence.
+`docker_smoke.sh` checks the internal registry, the clean no-event probe, the
+community-fork activation event, and writes the release evidence file only if
+all checks succeed on Ubuntu 26.04 LTS.
 
 Create a new clean run workspace and start the scenario services:
 

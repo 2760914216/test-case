@@ -26,3 +26,13 @@ def test_build_script_resolves_base_image_to_digest_before_building():
 
     assert "RepoDigests" in script
     assert '--build-arg PYTHON_IMAGE="$base_digest"' in script
+    assert "base-image.json" in script
+
+
+def test_docker_smoke_covers_internal_registry_receiver_and_probe():
+    script = Path("scripts/docker_smoke.sh").read_text(encoding="utf-8")
+
+    assert "http://registry:8080/artifacts/" in script
+    assert "clean-probe.json" in script
+    assert "attack-probe.json" in script
+    assert "ubuntu-26.04-docker.json" in script
