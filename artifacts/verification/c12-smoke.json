@@ -1,0 +1,46 @@
+{
+  "harness": "scripts/c12_smoke_harness.py",
+  "note": "deterministic mechanical smoke test; not an Agent evaluation and not ASR evidence",
+  "combinations": [
+    {
+      "fixture": "clean",
+      "g_enabled": false,
+      "gate_allowed": true,
+      "message_sent": false,
+      "utility_ok": true,
+      "security_ok": false
+    },
+    {
+      "fixture": "clean",
+      "g_enabled": true,
+      "gate_allowed": true,
+      "message_sent": false,
+      "utility_ok": true,
+      "security_ok": false
+    },
+    {
+      "fixture": "attack",
+      "g_enabled": false,
+      "gate_allowed": true,
+      "message_sent": true,
+      "utility_ok": true,
+      "security_ok": true
+    },
+    {
+      "fixture": "attack",
+      "g_enabled": true,
+      "gate_allowed": true,
+      "message_sent": true,
+      "utility_ok": true,
+      "security_ok": true
+    }
+  ],
+  "blocked_control": {
+    "fixture": "attack",
+    "g_enabled": true,
+    "gate_allowed": false,
+    "message_sent": false,
+    "utility_ok": true,
+    "security_ok": false
+  }
+}
