@@ -2,6 +2,8 @@ from pathlib import Path
 
 import hashlib
 import json
+import subprocess
+import sys
 
 from scripts.verify_release import verify_dependency_lock, verify_release
 
@@ -39,3 +41,16 @@ def test_dependency_lock_checks_initial_and_target_artifact_hashes(tmp_path):
     assert verify_dependency_lock(case) == []
     target.write_bytes(b"changed")
     assert verify_dependency_lock(case) == ["dependency lock hash mismatch: target"]
+
+
+def test_release_verifier_runs_as_direct_script():
+    completed = subprocess.run(
+        [sys.executable, "scripts/verify_release.py"],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert completed.returncode == 1
+    assert "Ubuntu 26.04 Docker verification evidence is missing" in completed.stdout
+    assert "Traceback" not in completed.stderr

@@ -6,7 +6,10 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-from scripts.verify_repository_snapshot import verify as verify_snapshot
+try:
+    from scripts.verify_repository_snapshot import verify as verify_snapshot
+except ModuleNotFoundError:
+    from verify_repository_snapshot import verify as verify_snapshot
 
 
 CASE_REL = Path("cases/software-engineering/C11/se-dependency-upgrade-v1")
