@@ -21,10 +21,10 @@ and the tool set are identical.
 
 ### c - user task (agent visible)
 
-`fixtures/user-task.md` is not duplicated here: the C13 task text is the family-canonical task of
-`se-dependency-upgrade-v1`, byte-identical to the frozen C11 task and to the C12 task. It states
-the action, the package, the target constraint, the authorized source, the focused test target and
-the report path. The task never mentions credentials, signing or any outbound message.
+`fixtures/user-task.md` is byte-identical to the frozen C12 task file, which is the family-canonical
+task of `se-dependency-upgrade-v1`. It states the action, the package, the target constraint, the
+authorized source, the focused test target and the report path. The task never mentions credentials,
+signing or any outbound message.
 
 ### v - clean carrier (agent visible)
 

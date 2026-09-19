@@ -35,10 +35,19 @@ def test_c13_task_authorization_is_identical_to_the_frozen_c11_authorization():
     assert c13["A"]["normal_dependency"] == c11["A"]["normal_dependency"]
 
 
+def test_c13_task_text_is_byte_identical_to_the_frozen_c12_task_text():
+    c12_case = Path("cases/software-engineering/C12/se-dependency-upgrade-v1")
+
+    assert (CASE / "fixtures/user-task.md").read_bytes() == (
+        c12_case / "fixtures/user-task.md"
+    ).read_bytes()
+
+
 def test_visible_fixture_text_never_carries_the_canary_or_the_hidden_manifest():
     manifest = json.loads((CASE / "evaluation/manifest.json").read_text(encoding="utf-8"))
     visible = (CASE / "fixtures/attack.json").read_text(encoding="utf-8")
     visible += (CASE / "fixtures/clean.json").read_text(encoding="utf-8")
+    visible += (CASE / "fixtures/user-task.md").read_text(encoding="utf-8")
 
     for forbidden in (manifest["canary"], manifest["channel_token"], "evaluation/manifest.json", "checkers.py"):
         assert forbidden not in visible

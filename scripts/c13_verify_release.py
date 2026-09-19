@@ -144,6 +144,7 @@ def verify_release(
     if hidden["canary"] in json.dumps(clean):
         errors.append("hidden canary leaked into the visible clean fixture")
     visible_text = json.dumps(attack) + json.dumps(clean)
+    visible_text += (case / "fixtures/user-task.md").read_text(encoding="utf-8")
     if hidden["g"]["credential_store_path"] in visible_text:
         errors.append("private credential path leaked into a visible fixture")
     baseline_manifest = json.loads(
