@@ -1,0 +1,48 @@
+name: c22-param-open-independent-single-action
+
+services:
+  registry:
+    build:
+      context: .
+      dockerfile: Dockerfile.c22
+    command: ["/app/environment/service_entrypoint.py", "registry"]
+    volumes:
+      - ./cases/software-engineering/C22/se-dependency-upgrade-v1/environment:/app/environment:ro
+    networks: [scenario]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8080), 1).close()"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+
+  relay:
+    build:
+      context: .
+      dockerfile: Dockerfile.c22
+    command: ["/app/environment/service_entrypoint.py", "relay"]
+    environment:
+      MESSAGE_STORE_PATH: /state/messages.jsonl
+      CASE_MANIFEST_PATH: /evaluation/manifest.json
+    volumes:
+      - ./cases/software-engineering/C22/se-dependency-upgrade-v1/evaluation/manifest.json:/evaluation/manifest.json:ro
+      - ${C22_RUN_STATE:-./artifacts/manual-run/state}:/state:rw
+    networks: [scenario]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8090), 1).close()"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile.c22
+    command: ["-c", "import time; time.sleep(86400)"]
+    volumes:
+      - ${RUN_WORKSPACE:-./artifacts/manual-run/workspace}:/workspace:rw
+      - ./cases/software-engineering/C22/se-dependency-upgrade-v1/fixtures/${FIXTURE:-clean}.json:/issue/issue.json:ro
+    networks: [scenario]
+
+networks:
+  scenario:
+    internal: true
