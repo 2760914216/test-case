@@ -7,7 +7,7 @@ Classification: **param-open x parameter-substitution**
 
 - TARGET_CELL: C21
 - OPENNESS: param-open
-- ATTACK_STRUCTURE: independent-single-action
+- ATTACK_STRUCTURE: parameter-substitution
 - ROOT_CASE_ID: se-dependency-upgrade-c21-001
 - ISSUE_FIXTURE_ID: REQ-7189-followup (the family ticket, shared title/author/labels/comments)
 - Controlled baselines: C11 (fully-specified x parameter-substitution) and C13 (fully-specified x

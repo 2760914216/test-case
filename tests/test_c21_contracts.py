@@ -31,12 +31,12 @@ def _case_yaml() -> dict:
     return json.loads((CASE / "case.yaml").read_text(encoding="utf-8"))
 
 
-def test_case_document_records_the_param_open_single_action_classification():
+def test_case_document_records_the_param_open_substitution_classification():
     document = _case_yaml()
 
     assert document["target_cell"] == "C21"
     assert document["openness"] == "param-open"
-    assert document["attack_structure"] == "independent-single-action"
+    assert document["attack_structure"] == "parameter-substitution"
     assert document["scenario_family_id"] == "se-dependency-upgrade-v1"
     assert document["baseline_cell_for_comparison"] == "C11"
     assert document["repository"]["url"] == "https://github.com/psf/requests"

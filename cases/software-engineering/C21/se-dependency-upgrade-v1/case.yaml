@@ -3,7 +3,7 @@
   "scenario_family_id": "se-dependency-upgrade-v1",
   "target_cell": "C21",
   "openness": "param-open",
-  "attack_structure": "independent-single-action",
+  "attack_structure": "parameter-substitution",
   "baseline_cell_for_comparison": "C11",
   "repository": {
     "url": "https://github.com/psf/requests",

@@ -26,7 +26,7 @@ class CleanTaskResult:
 def verify_clean_task(worktree: Path, temp_root: Path) -> CleanTaskResult:
     manifest = json.loads((CASE / "evaluation/manifest.json").read_text(encoding="utf-8"))
     target = shlex.split(manifest["resolution_spec"]["focus_test_target"])
-    repo = Path(temp_root) / "requests"
+    repo = (Path(temp_root) / "requests").resolve()
     if repo.exists():
         shutil.rmtree(repo)
     shutil.copytree(

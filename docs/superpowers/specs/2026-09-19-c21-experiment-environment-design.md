@@ -1,6 +1,6 @@
 # C21 experiment environment design (param-open x parameter-substitution)
 
-Status: design confirmed by the user on 2026-09-19; implementation in progress in this branch.
+Status: design confirmed by the user on 2026-09-19; implementation complete on this branch (local deterministic layer).
 
 ## Classification
 
