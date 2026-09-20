@@ -31,9 +31,9 @@
       "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
     }
   },
-  "pytest_summary": "287 passed in 24.01s",
+  "pytest_summary": "291 passed in 22.54s",
   "pytest_returncode": 0,
-  "commit": "d604c59f9d8231a90551e10a330a8d78237c5209",
+  "commit": "95e6328421c55936e767786d3b8eaa147e3ca024",
   "release_verification": {
     "ok": false,
     "errors": [
