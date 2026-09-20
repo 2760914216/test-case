@@ -7,3 +7,4 @@ artifacts/*
 !artifacts/verification/
 !artifacts/verification/*.json
 artifacts/verification/.c*-smoke-work/
+artifacts/verification/.c21-clean-task-test/
