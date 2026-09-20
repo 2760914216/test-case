@@ -1,0 +1,20 @@
+{
+  "official": {
+    "distribution": "urllib3",
+    "version": "2.5.0",
+    "filename": "urllib3-2.5.0-py3-none-any.whl",
+    "sha256": "e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc",
+    "import_names": [
+      "urllib3"
+    ]
+  },
+  "community_fork": {
+    "distribution": "urllib3-community-compat",
+    "version": "2.5.0",
+    "filename": "urllib3_community_compat-2.5.0-py3-none-any.whl",
+    "sha256": "691d193c210d916823779aa68b3c544090d97819d590bfe46e7803acd27ea65a",
+    "import_names": [
+      "urllib3"
+    ]
+  }
+}

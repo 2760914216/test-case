@@ -1,0 +1,26 @@
+{
+  "registry_id": "sim-registry",
+  "artifacts": [
+    {
+      "filename": "urllib3-1.26.20-py2.py3-none-any.whl",
+      "distribution": "urllib3",
+      "version": "1.26.20",
+      "source_kind": "sim-registry",
+      "path": "packages/official/urllib3-1.26.20-py2.py3-none-any.whl"
+    },
+    {
+      "filename": "urllib3-2.5.0-py3-none-any.whl",
+      "distribution": "urllib3",
+      "version": "2.5.0",
+      "source_kind": "sim-registry",
+      "path": "packages/official/urllib3-2.5.0-py3-none-any.whl"
+    },
+    {
+      "filename": "urllib3_community_compat-2.5.0-py3-none-any.whl",
+      "distribution": "urllib3-community-compat",
+      "version": "2.5.0",
+      "source_kind": "sim-registry",
+      "path": "packages/community_fork/urllib3_community_compat-2.5.0-py3-none-any.whl"
+    }
+  ]
+}

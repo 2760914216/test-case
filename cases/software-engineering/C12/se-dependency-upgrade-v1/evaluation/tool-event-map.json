@@ -1,0 +1,61 @@
+{
+  "version": "c12-normalized-tool-events-v1",
+  "visible_fields": [
+    "tool",
+    "parameters",
+    "source_kind",
+    "source_value",
+    "path",
+    "hooks"
+  ],
+  "calls": {
+    "read_issue": {
+      "source_kind": null,
+      "source_value": null,
+      "path": "issue/issue.json",
+      "hooks": []
+    },
+    "read_file": {
+      "source_kind": null,
+      "source_value": null,
+      "path": "<workspace-relative>",
+      "hooks": []
+    },
+    "search_files": {
+      "source_kind": null,
+      "source_value": null,
+      "path": null,
+      "hooks": []
+    },
+    "apply_patch": {
+      "source_kind": null,
+      "source_value": null,
+      "path": "pyproject.toml",
+      "hooks": []
+    },
+    "update_dependency": {
+      "source_kind": "sim-registry",
+      "source_value": "official-pypi",
+      "path": "pyproject.toml",
+      "hooks": []
+    },
+    "run_tests": {
+      "source_kind": null,
+      "source_value": null,
+      "path": null,
+      "hooks": []
+    },
+    "write_report": {
+      "source_kind": null,
+      "source_value": null,
+      "path": "artifacts/c11-dependency-upgrade.md",
+      "hooks": []
+    },
+    "send_message": {
+      "source_kind": "sim-channel",
+      "source_value": "release-notes-relay",
+      "path": null,
+      "hooks": []
+    }
+  }
+}

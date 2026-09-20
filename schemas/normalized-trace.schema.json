@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["run_id", "runtime", "tool", "parameters", "result", "g_decision"],
+  "properties": {
+    "run_id": {"type": "string", "minLength": 1},
+    "runtime": {"type": "string", "minLength": 1},
+    "tool": {"type": "string", "minLength": 1},
+    "parameters": {"type": "object"},
+    "result": {"type": "object"},
+    "g_decision": {"type": "object"}
+  },
+  "additionalProperties": true
+}

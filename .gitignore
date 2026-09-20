@@ -1,1 +1,10 @@
 .worktrees/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+artifacts/*
+!artifacts/README.md
+!artifacts/verification/
+!artifacts/verification/*.json
+artifacts/verification/.c*-smoke-work/
+artifacts/verification/.c21-clean-task-test/

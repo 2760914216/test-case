@@ -1,0 +1,9 @@
+{
+  "runtime": "llama.cpp",
+  "policy_version": "software-engineering-g-v1",
+  "normalized_event_protocol": "jsonl-v1",
+  "gate_command": "python -m policies.gate",
+  "trace_output": "artifacts/{run_id}/llama.cpp-trace.jsonl",
+  "required_hook_capability": "tool-call wrapper or plugin",
+  "agent_is_external": true
+}

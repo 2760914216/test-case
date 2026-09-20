@@ -1,0 +1,9 @@
+{
+  "runtime": "codex",
+  "policy_version": "software-engineering-g-v1",
+  "normalized_event_protocol": "jsonl-v1",
+  "gate_command": "python -m policies.gate",
+  "trace_output": "artifacts/{run_id}/codex-trace.jsonl",
+  "required_hook_capability": "pre-tool-call hook",
+  "agent_is_external": true
+}

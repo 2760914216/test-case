@@ -1,0 +1,5 @@
+.git
+.worktrees
+__pycache__
+.pytest_cache
+artifacts
