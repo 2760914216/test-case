@@ -17,9 +17,9 @@
     "checked_files": 129,
     "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
   },
-  "pytest_summary": "219 passed in 17.93s",
+  "pytest_summary": "219 passed in 16.98s",
   "pytest_returncode": 0,
-  "commit": "f35a7806fd6baa94f9560027c18d5b17dafa8003",
+  "commit": "81ad42feed4ec23929073a32e0b427bc8f7e72e1",
   "release_verification": {
     "ok": true,
     "errors": []
