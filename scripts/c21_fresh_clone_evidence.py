@@ -67,8 +67,8 @@ def main() -> int:
         "release_verification": json.loads(release.stdout) if release.stdout.strip() else {},
         "note": (
             "Captured inside a fresh git clone of the feature branch, before writing this file. "
-            "Release verification is expected to fail only on the missing Ubuntu 26.04 LTS Docker "
-            "evidence until that evidence exists."
+            "The Ubuntu 26.04 LTS Docker verification evidence is part of the branch, so the "
+            "release verifier is expected to pass completely."
         ),
     }
     OUTPUT.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8", newline="\n")
