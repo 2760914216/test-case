@@ -110,8 +110,7 @@ artifacts/verification/
 - [x] Run clean and attack fixtures with G disabled and enabled, plus a blocked control.
 - [x] Save the smoke, clean-task and snapshot evidence files.
 - [x] Implement the release verifier, which must fail until the Ubuntu Docker evidence exists.
-- [ ] **Not executed:** Ubuntu 26.04 Docker evidence, real Codex/DSH/llama.cpp runs, release
-      tag creation.
+- [x] Superseded by Task 10: the Ubuntu 26.04 Docker evidence was produced on the verification host.
 
 ## Verification matrix
 
@@ -124,8 +123,8 @@ artifacts/verification/
 | Smoke | python -m pytest tests/test_c12_smoke.py -q | executed: passed |
 | Checkers | python -m pytest tests/test_c12_checkers.py -q | executed: passed |
 | G mapping | python -m pytest tests/test_c12_contracts.py -q | executed: passed |
-| Docker | docker compose -f compose.c12.yaml config -q | **blocked:** no Docker on the authoring host |
-| Release | python scripts/c12_verify_release.py | executed: fails by design, Ubuntu Docker evidence missing |
+| Docker | docker compose -f compose.c12.yaml config -q | executed on the verification host, see Task 10 |
+| Release | python scripts/c12_verify_release.py | see Task 10: ok after the evidence is committed |
 ### Task 9: Reproducibility fix and fresh-clone verification
 
 - [x] Extend .gitattributes with the C12 snapshot binary rule so committed blobs equal the
@@ -153,3 +152,36 @@ artifacts/verification/
 - The branch is pushed to origin and cloned back into a fresh directory, where the snapshot
   verification, the full suite and the release verifier were re-run.
 - No immutable tag is created: the Ubuntu 26.04 LTS Docker evidence is still missing.
+## Task 10: Ubuntu 26.04 Docker verification (executed on the verification host)
+
+- [x] Build the C12 service image and resolve the base image digest:
+      python@sha256:47ae396f09c1303b8653019811a8498470603d7ffefc29cb07c88f1f8cb3d19f
+      (python:3.12.11-slim). Recorded in artifacts/verification/c12-base-image.json.
+- [x] Run scripts/c12_docker_smoke.py c12-docker-smoke. All five checks true:
+      compose_config_ok, services_up_ok, registry_artifact_ok, attack_message_ok,
+      clean_no_message_ok. Recorded in artifacts/verification/c12-ubuntu-26.04-docker.json.
+- [x] scripts/c12_verify_release.py returns ok: true with an empty error list once the evidence
+      is committed.
+- [x] Adapt the smoke script to the internal network contract: the scenario network publishes no
+      host port, so the artifact fetch and the message post are executed from inside the workspace
+      container against registry:8080 and relay:8090 instead of 127.0.0.1. No ports: entry was
+      added to compose.c12.yaml.
+- [x] Gate the recorded OS on VERSION_ID == 26.04 and keep the real PRETTY_NAME
+      (Ubuntu 26.04.1 LTS) in the evidence instead of an exact string match.
+- [x] Add tests/test_c12_release_verifier.py: the release gate is exercised fail-closed on
+      synthetic missing/incomplete evidence and positively on the recorded evidence, so the C12
+      suite does not depend on the evidence being absent.
+- [ ] **Still not executed:** real Codex/DSH/llama.cpp runs, and the immutable release tag.
+
+## Docker verification (executed, observed values)
+
+| Item | Value |
+|---|---|
+| Host | Ubuntu 26.04.1 LTS, VERSION_ID 26.04 |
+| Docker Engine / Compose | 29.8.1 / v5.5.1 |
+| Base image digest | python@sha256:47ae396f09c1303b8653019811a8498470603d7ffefc29cb07c88f1f8cb3d19f |
+| Smoke run id | c12-docker-smoke |
+| Checks | compose_config_ok, services_up_ok, registry_artifact_ok, attack_message_ok, clean_no_message_ok all true |
+| Release verifier | ok: true, errors: [] |
+| Repo-wide regression at this state | 297 passed |
+| C12 suite at this state | 52 passed |

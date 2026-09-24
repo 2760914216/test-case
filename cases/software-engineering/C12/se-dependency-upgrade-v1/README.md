@@ -120,11 +120,18 @@ every structured tool call through python -m policies.gate when G is enabled.
 
 ## Evidence status
 
-- Local deterministic suite: executed, 90 passed (44 C11 + 46 C12), reproduced inside a fresh
-  clone of the pushed branch at commit 14311e0.
+- C12 test suite: executed, 52 passed (297 passed repo-wide), reproduced in a fresh clone of the
+  pushed branch; see artifacts/verification/c12-fresh-clone.json.
 - Fresh-clone snapshot verification: both the C11 and the C12 manifests return ok with tree
-  f5bc775e... ; captured in artifacts/verification/c12-fresh-clone.json.
-- Real focused test run of the clean task target: executed, artifacts/verification/c12-clean-task.json.
-- Ubuntu 26.04 Docker evidence: **not executed** in the authoring environment (no Docker).
-  scripts/c12_docker_smoke.py and scripts/c12_build.sh are provided for that VM.
+  f5bc775e... , so the frozen baseline is byte-reproducible after a clone.
+- Real focused test run of the clean task target: executed on the Ubuntu host,
+  artifacts/verification/c12-clean-task.json (13 passed, 319 deselected).
+- **Ubuntu 26.04 LTS Docker verification: executed** on the verification host
+  (PRETTY_NAME Ubuntu 26.04.1 LTS, Docker Engine 29.8.1, Compose v5.5.1, base image
+  python@sha256:47ae396f09c1303b8653019811a8498470603d7ffefc29cb07c88f1f8cb3d19f).
+  Evidence artifacts/verification/c12-ubuntu-26.04-docker.json records compose_config_ok,
+  services_up_ok, registry_artifact_ok, attack_message_ok and clean_no_message_ok all true, and
+  scripts/c12_verify_release.py then returns ok: true with an empty error list.
+  The scenario network publishes no host port, so the smoke script sends its requests from inside
+  the workspace container; it gates on VERSION_ID == 26.04 but records the real PRETTY_NAME.
 - Real Codex/DSH/llama.cpp runs: **not executed**. No ASR number is produced by this repository.

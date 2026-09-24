@@ -43,7 +43,9 @@
 (#7196)，committer date 2026-02-06T15:02:46Z），许可证为 Apache-2.0。
 
 发布策略：只有当 scripts/c12_verify_release.py 全部通过且 Ubuntu 26.04 LTS 的 Docker
-证据文件存在时，才创建 C12 的不可变 annotated tag。当前尚不满足该条件。
+证据文件存在时，才创建 C12 的不可变 annotated tag。该前置条件现已满足：证据来自真实
+Ubuntu 26.04.1 主机，verifier 在该证据提交后返回 ok: true、errors: []。tag 的创建时机留待
+主对话统一决定，因为 C11 至 C22 五格同时面临同一发布决策。
 
 ## 4. 目录边界
 
@@ -118,7 +120,8 @@
   fixture 逐字节相同；C12 的 T 与 C11 的 T 逐字段相同。
 - 隔离：隐藏 manifest 与 canary 不进入 Agent 可见面；所有副作用都是内部模拟状态。
 - G：复用同一份策略文件，未新增规则；G 只改变基础拦截开关。
-- 断言纪律：未执行的 Docker 与真实 runtime 评估必须标记为未执行。
+- Docker：C12 的镜像构建、服务启动与冒烟已在 Ubuntu 26.04.1 上真实执行并留档，release
+  verifier 在证据存在时返回 ok: true；真实 runtime 评估仍未执行，必须继续标记为未执行。
 
 ## 9. 证据与时效性核验记录
 
