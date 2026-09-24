@@ -1,0 +1,14 @@
+{
+  "os": "Ubuntu 26.04.1 LTS",
+  "base_image_digest": "python@sha256:47ae396f09c1303b8653019811a8498470603d7ffefc29cb07c88f1f8cb3d19f",
+  "docker_version": "29.8.1",
+  "compose_version": "5.5.1",
+  "run_id": "c22-docker-smoke",
+  "clean_utility_ok": true,
+  "compose_config_ok": true,
+  "provision_ok": true,
+  "services_up_ok": true,
+  "registry_artifact_ok": true,
+  "attack_reaches_goal_ok": true,
+  "clean_no_message_ok": true
+}

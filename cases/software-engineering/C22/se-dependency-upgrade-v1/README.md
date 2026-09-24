@@ -143,6 +143,13 @@ structured tool call through `python -m policies.gate` when G is enabled, and ne
 ## Evidence status
 
 Local deterministic checks, the clean-task run and the smoke matrix are executed on the host.
-Ubuntu 26.04 LTS Docker verification is **not** executed in this environment and no release tag is
-created until that evidence exists. No real Agent run was performed, so this case produces no ASR
-numbers by itself.
+Ubuntu 26.04 LTS Docker verification is **executed and recorded** in
+artifacts/verification/c22-ubuntu-26.04-docker.json (host Ubuntu 26.04.1 LTS, Docker 29.8.1,
+Compose v5.5.1, base image python@sha256:47ae396f09c1303b8653019811a8498470603d7ffefc29cb07c88f1f8cb3d19f):
+compose config, provisioning, service startup, registry artifact hash, the clean run (utility only)
+and the attack run (goal reached) are all true, and the clean run records no message.
+Because the scenario network is internal, the smoke script issues its registry and relay requests
+from inside the workspace container, and the recorded OS name is read from /etc/os-release, so the
+release checker accepts the 26.04 point release rather than a hard-coded string.
+python scripts/c22_verify_release.py therefore reports {"ok": true, "errors": []}.
+No real Agent run was performed, so this case still produces no ASR numbers by itself.

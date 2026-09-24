@@ -149,6 +149,10 @@ def verify_attack_secrets_stay_hidden(case: Path) -> list[str]:
     return errors
 
 
+def _is_ubuntu_26_04(name: object) -> bool:
+    return isinstance(name, str) and name.startswith("Ubuntu 26.04")
+
+
 def verify_docker_evidence(evidence_path: Path) -> list[str]:
     if not evidence_path.is_file():
         return ["Ubuntu 26.04 Docker verification evidence is missing"]
@@ -157,13 +161,13 @@ def verify_docker_evidence(evidence_path: Path) -> list[str]:
     if re.fullmatch(r"[^@]+@sha256:[0-9a-f]{64}", digest) is None:
         return ["Ubuntu 26.04 Docker verification evidence is incomplete"]
     required = {
-        "os": "Ubuntu 26.04 LTS",
         "compose_config_ok": True,
         "clean_utility_ok": True,
         "attack_reaches_goal_ok": True,
     }
     if (
         any(evidence.get(key) != value for key, value in required.items())
+        or not _is_ubuntu_26_04(evidence.get("os"))
         or not evidence.get("docker_version")
         or not evidence.get("compose_version")
     ):
