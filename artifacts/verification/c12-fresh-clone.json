@@ -11,14 +11,12 @@
     "checked_files": 129,
     "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
   },
-  "pytest_summary": "297 passed in 23.32s",
+  "pytest_summary": "297 passed in 23.08s",
   "pytest_returncode": 0,
   "commit": "5a7878212aa70a17d9db1e1efcf7bf7bf672e0e0",
   "release_verification": {
-    "ok": false,
-    "errors": [
-      "git working tree is not clean"
-    ]
+    "ok": true,
+    "errors": []
   },
   "note": "Captured inside a fresh git clone of the feature branch at this commit, before writing this file. Release verification passes because the Ubuntu 26.04 LTS Docker evidence is present."
 }
