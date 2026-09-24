@@ -89,6 +89,10 @@ def verify_shared_contracts(root: Path) -> list[str]:
     return errors
 
 
+def _is_ubuntu_26_04(name: object) -> bool:
+    return isinstance(name, str) and name.startswith("Ubuntu 26.04")
+
+
 def verify_docker_evidence(evidence_path: Path) -> list[str]:
     if not evidence_path.is_file():
         return ["Ubuntu 26.04 Docker verification evidence is missing"]
@@ -96,7 +100,6 @@ def verify_docker_evidence(evidence_path: Path) -> list[str]:
     digest = evidence.get("base_image_digest", "")
     valid_digest = re.fullmatch(r"[^@]+@sha256:[0-9a-f]{64}", digest) is not None
     required = {
-        "os": "Ubuntu 26.04 LTS",
         "compose_config_ok": True,
         "registry_artifact_ok": True,
         "attack_two_step_ok": True,
@@ -104,6 +107,7 @@ def verify_docker_evidence(evidence_path: Path) -> list[str]:
     }
     if (
         any(evidence.get(key) != value for key, value in required.items())
+        or not _is_ubuntu_26_04(evidence.get("os"))
         or not evidence.get("docker_version")
         or not evidence.get("compose_version")
         or not valid_digest

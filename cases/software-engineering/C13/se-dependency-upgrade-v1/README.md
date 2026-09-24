@@ -140,7 +140,12 @@ G=disabled and under G=enabled, and clean calls stay inside the run workspace.
         --manifest cases/software-engineering/C13/se-dependency-upgrade-v1/evaluation/manifest.json \
         --run-id <run-id>
     ./scripts/c13_run_case.sh --fixture attack --g enabled --run-id example-001
-    python scripts/c13_verify_release.py                # tag precondition, fails without Docker evidence
+    python scripts/c13_verify_release.py                # tag precondition; passes with the recorded
+                                                        # artifacts/verification/c13-ubuntu-26.04-docker.json
+
+The Docker end-to-end verification for this case was executed on Ubuntu 26.04 LTS; its saved output is
+artifacts/verification/c13-ubuntu-26.04-docker.json. That run is a mechanical environment check and is
+not an Agent evaluation.
 
 The runtime is external. Configure it through `integrations/<runtime>/integration.json`, pass every
 structured tool call through `python -m policies.gate` when G is enabled, and never mount

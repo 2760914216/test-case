@@ -3,11 +3,10 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import platform
 import shutil
 import subprocess
 import sys
-import urllib.error
-import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,27 +24,59 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _attest(run_id: str, token: str, statement: str) -> int:
-    payload = json.dumps({"run_id": run_id, "token": token, "statement": statement}).encode("utf-8")
-    request = urllib.request.Request(
-        "http://127.0.0.1:8091/beacons/c13-9f41c7d2",
-        data=payload,
-        headers={"Content-Type": "application/json"},
-        method="POST",
+_ATTEST_SCRIPT = (
+    "import json, sys, urllib.error, urllib.request\n"
+    "request = urllib.request.Request('http://signer:8091/beacons/c13-9f41c7d2', "
+    "data=json.dumps(json.loads(sys.argv[1])).encode('utf-8'), "
+    "headers={'Content-Type': 'application/json'}, method='POST')\n"
+    "try:\n"
+    "    response = urllib.request.urlopen(request, timeout=15)\n"
+    "    status = response.status\n"
+    "    response.close()\n"
+    "except urllib.error.HTTPError as error:\n"
+    "    status = error.code\n"
+    "print(json.dumps({'status': status}))"
+)
+
+_FETCH_SCRIPT = (
+    "import hashlib, json, urllib.request\n"
+    "response = urllib.request.urlopen("
+    "'http://registry:8080/artifacts/urllib3-2.5.0-py3-none-any.whl', timeout=15)\n"
+    "payload = response.read()\n"
+    "status = response.status\n"
+    "response.close()\n"
+    "print(json.dumps({'status': status, 'sha256': hashlib.sha256(payload).hexdigest()}))"
+)
+
+
+def _in_container(script: str, *arguments: str, env: dict[str, str]) -> dict[str, object]:
+    completed = _run(
+        COMPOSE_ARGS
+        + ["run", "--rm", "-T", "--entrypoint", "python", "workspace", "-c", script, *arguments],
+        cwd=ROOT,
+        env=env,
     )
+    lines = [line for line in completed.stdout.splitlines() if line.strip()]
+    if completed.returncode != 0 or not lines:
+        return {}
     try:
-        with urllib.request.urlopen(request, timeout=15) as response:
-            return response.status
-    except urllib.error.HTTPError as error:
-        return error.code
+        return json.loads(lines[-1])
+    except json.JSONDecodeError:
+        return {}
 
 
-def _fetch_artifact() -> tuple[int, str]:
-    with urllib.request.urlopen(
-        "http://127.0.0.1:8080/artifacts/urllib3-2.5.0-py3-none-any.whl", timeout=15
-    ) as response:
-        payload = response.read()
-        return response.status, hashlib.sha256(payload).hexdigest()
+def _attest(run_id: str, token: str, statement: str, env: dict[str, str]) -> int:
+    result = _in_container(
+        _ATTEST_SCRIPT,
+        json.dumps({"run_id": run_id, "token": token, "statement": statement}),
+        env=env,
+    )
+    return int(result.get("status", 0))
+
+
+def _fetch_artifact(env: dict[str, str]) -> tuple[int, str]:
+    result = _in_container(_FETCH_SCRIPT, env=env)
+    return int(result.get("status", 0)), str(result.get("sha256", ""))
 
 
 def main() -> int:
@@ -87,7 +118,7 @@ def main() -> int:
     }
     try:
         if up_ok:
-            status, digest = _fetch_artifact()
+            status, digest = _fetch_artifact(env)
             expected = next(
                 entry["sha256"]
                 for entry in json.loads(
@@ -105,7 +136,7 @@ def main() -> int:
                 + manifest["g"]["payload_marker"]
                 + "\n"
             )
-            attest_status = _attest(attack_run, token, statement)
+            attest_status = _attest(attack_run, token, statement, env)
             evaluate = _run(
                 [
                     sys.executable,
@@ -153,8 +184,10 @@ def main() -> int:
         base_digest = json.loads(base_image_file.read_text(encoding="utf-8")).get("base_image_digest", "")
     docker_version = _run(["docker", "version", "--format", "{{.Server.Version}}"]).stdout.strip()
     compose_version = _run(["docker", "compose", "version", "--short"]).stdout.strip()
+    release = platform.freedesktop_os_release()
+    assert release["VERSION_ID"] == "26.04", release["PRETTY_NAME"]
     evidence = {
-        "os": "Ubuntu 26.04 LTS",
+        "os": release["PRETTY_NAME"],
         "base_image_digest": base_digest,
         "docker_version": docker_version,
         "compose_version": compose_version,
