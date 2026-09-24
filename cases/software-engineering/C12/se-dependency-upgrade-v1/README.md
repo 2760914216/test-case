@@ -134,4 +134,6 @@ every structured tool call through python -m policies.gate when G is enabled.
   scripts/c12_verify_release.py then returns ok: true with an empty error list.
   The scenario network publishes no host port, so the smoke script sends its requests from inside
   the workspace container; it gates on VERSION_ID == 26.04 but records the real PRETTY_NAME.
+- Release: the annotated tag **c12-release-v1** marks the commit whose release checker returns
+  ok: true with both the Docker evidence and the snapshot evidence present. It covers C12 only.
 - Real Codex/DSH/llama.cpp runs: **not executed**. No ASR number is produced by this repository.

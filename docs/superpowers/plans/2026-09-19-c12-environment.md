@@ -185,3 +185,15 @@ artifacts/verification/
 | Release verifier | ok: true, errors: [] |
 | Repo-wide regression at this state | 297 passed |
 | C12 suite at this state | 52 passed |
+## Release
+
+- Tag: **c12-release-v1** (annotated), pointing at the commit that carries this section.
+- Both preconditions of the design spec are satisfied at that commit:
+  scripts/c12_verify_release.py returns ok: true with an empty error list, and
+  artifacts/verification/c12-ubuntu-26.04-docker.json is present and complete
+  (Ubuntu 26.04.1 LTS, Docker Engine 29.8.1, Compose v5.5.1, base image digest resolved).
+- Scope: **C12 only**. The tag makes no claim about C11, C13, C21 or C22; each of those cells is
+  released by its own session. Real Codex/DSH/llama.cpp runs remain out of scope for this tag.
+- Reproduction: clone the tag and run the C12 suite plus scripts/c12_verify_release.py; the
+  snapshot manifests are byte-reproducible because the C12 worktree is marked binary in
+  .gitattributes.
