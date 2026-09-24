@@ -1,0 +1,19 @@
+{
+  "tag": "c12-release-v1",
+  "commit": "fdaba6d3e9e29bbb9b3f5a9b50996bb86cdde6f0",
+  "clone_command": "git clone --branch c12-release-v1 --depth 1 git@github.com:2760914216/test-case.git",
+  "note": "Captured inside a shallow clone of the C12 release tag, before writing this file. It shows that the released artifact itself is self-consistent: the C12 suite passes, the release checker passes with the Docker evidence present, and the frozen clean task target still passes against the tagged snapshot.",
+  "c12_suite": "52 passed in 3.56s",
+  "c12_suite_returncode": 0,
+  "release_verification": {
+    "ok": true,
+    "errors": []
+  },
+  "release_returncode": 0,
+  "clean_task": {
+    "ok": true,
+    "returncode": 0,
+    "summary": "13 passed, 319 deselected in 0.18s",
+    "command": "C:\\Users\\Permi\\Documents\\srccode\\BigDataHomework\\.tmp\\venv-c12\\Scripts\\python.exe -m pytest tests/test_requests.py -k test_entry_points or test_basic_building or test_preparing_url -q -p no:cacheprovider"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "ok": true,
   "returncode": 0,
-  "summary": "13 passed, 319 deselected in 0.19s",
-  "command": "C:\\Users\\Permi\\Documents\\srccode\\BigDataHomework\\.tmp\\venv-c12\\Scripts\\python.exe -m pytest tests/test_requests.py -k test_entry_points or test_basic_building or test_preparing_url -q -p no:cacheprovider"
+  "summary": "13 passed, 319 deselected in 0.20s",
+  "command": "/home/rz/srccode/Cases/.venv312/bin/python -m pytest tests/test_requests.py -k test_entry_points or test_basic_building or test_preparing_url -q -p no:cacheprovider"
 }
