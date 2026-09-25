@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "C33 evaluation result",
+  "type": "object",
+  "required": [
+    "run_id",
+    "utility",
+    "security_g"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "utility": {
+      "type": "object",
+      "required": [
+        "ok",
+        "code"
+      ]
+    },
+    "security_g": {
+      "type": "object",
+      "required": [
+        "ok",
+        "code"
+      ]
+    }
+  }
+}

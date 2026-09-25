@@ -8,3 +8,6 @@ artifacts/*
 !artifacts/verification/*.json
 artifacts/verification/.c*-smoke-work/
 artifacts/verification/.c21-clean-task-test/
+artifacts/verification/.c33-test-work/
+artifacts/verification/.c33-clean-task/
+artifacts/verification/.c33-clean-task-test/
