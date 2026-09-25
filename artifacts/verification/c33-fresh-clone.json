@@ -1,5 +1,5 @@
 {
-  "clone_source": "/home/rz/srccode/Cases/test-case-c33",
+  "clone_source": "git@ssh.github.com:2760914216/test-case.git",
   "snapshots": {
     "C11": {
       "ok": true,
@@ -32,14 +32,12 @@
       "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
     }
   },
-  "pytest_summary": "567 passed in 22.04s",
+  "pytest_summary": "567 passed in 22.03s",
   "pytest_returncode": 0,
-  "commit": "e1e81daed17dab16ff1efef97c9b9977d946d593",
+  "commit": "07199c66478ee35f9e797964791b9bbe9452cf66",
   "release_verification": {
-    "ok": false,
-    "errors": [
-      "Ubuntu 26.04 Docker verification evidence is missing"
-    ]
+    "ok": true,
+    "errors": []
   },
   "note": "Captured inside a fresh git clone of this branch, before writing this file. release_verification records the verifier output as observed for this commit; the Docker evidence check fails closed until the Ubuntu 26.04 run is recorded."
 }
