@@ -1,0 +1,5 @@
+{
+  "base_image_digest": "python@sha256:47ae396f09c1303b8653019811a8498470603d7ffefc29cb07c88f1f8cb3d19f",
+  "docker_version": "29.8.1",
+  "compose_version": "5.5.1"
+}
