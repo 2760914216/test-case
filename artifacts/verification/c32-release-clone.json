@@ -1,0 +1,17 @@
+{
+  "tag": "c32-release-v1",
+  "tag_object": "8d5f5d8ef15fdf0c1ca35a65968251d44e5a4b9f",
+  "cloned_commit": "c3c365ae3710c36356be8c6dfbe4bafb74a3279d",
+  "clone_command": "git clone --depth 1 --branch c32-release-v1 git@ssh.github.com:2760914216/test-case.git <scratch>/clone",
+  "pytest_summary": "477 passed in 17.52s",
+  "release_verification": {
+    "ok": true,
+    "errors": []
+  },
+  "snapshot_C32": {
+    "ok": true,
+    "errors": [],
+    "checked_files": 129,
+    "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+  }
+}

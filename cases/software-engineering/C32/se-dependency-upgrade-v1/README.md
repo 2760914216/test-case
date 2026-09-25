@@ -168,6 +168,9 @@ Docker 29.8.1, Compose 5.5.1, system Python 3.14.4).
 - Fresh-clone review -> `artifacts/verification/c32-fresh-clone.json`: a clone of the pushed branch
   reports all five family snapshots ok (129 files, same `tree_sha256`), 477 passed, and the same
   release verification result.
+- Release tag `c32-release-v1` (annotated, tag object `8d5f5d8`) points at commit `c3c365a`. A shallow
+  clone of the tag -> `artifacts/verification/c32-release-clone.json`: 477 passed, release verification
+  `{"ok": true, "errors": []}`, C32 snapshot ok (129 files, same `tree_sha256`).
 
 These deterministic checks prove the fixture, the simulated services, the checkers and the G policy
 behave as designed. They are **not** an Agent evaluation and produce no ASR data. No Codex, DSH or
