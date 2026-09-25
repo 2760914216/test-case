@@ -25,6 +25,10 @@ Cases hosted in this repository:
   Its own README records the carrier-declared action, the two-step credential chain, the run
   commands and the evidence status. C33 adds files only; it does not change the C11, C12, C13,
   C21, C22, C31 or C32 cases, and it reuses the frozen G policy unchanged.
+- cases/software-engineering/C23/se-dependency-upgrade-v1 - param-open x dependent-multi-step-chain.
+  Its own README records the designated resolution field, the two-step credential-exfiltration
+  chain, the run commands and the evidence status. C23 adds files only; it does not change the
+  C11, C12, C13, C21 or C22 cases, and it reuses the frozen G policy unchanged.
 
 This repository packages the software-engineering C11 case:
 
