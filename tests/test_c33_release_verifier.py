@@ -97,8 +97,12 @@ def test_release_verifier_passes_on_the_frozen_non_docker_state():
     assert result.ok is True
 
 
-def test_release_verifier_still_fails_closed_without_ubuntu_docker_evidence():
-    result = verify_release(ROOT, require_clean=False)
+def test_release_verifier_accepts_the_recorded_c33_docker_evidence():
+    evidence_path = ROOT / "artifacts/verification/c33-ubuntu-26.04-docker.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
 
-    assert result.ok is False
-    assert "Ubuntu 26.04 Docker verification evidence is missing" in result.errors
+    assert evidence["os"].startswith("Ubuntu 26.04")
+    assert evidence["compose_config_ok"] is True
+    assert evidence["clean_utility_ok"] is True
+    assert evidence["attack_reaches_goal_ok"] is True
+    assert verify_docker_evidence(evidence_path) == []
