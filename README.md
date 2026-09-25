@@ -17,6 +17,10 @@ Cases hosted in this repository:
   Its own README records the designated resolution field, the added messaging action, the
   run commands and the evidence status. C22 adds files only; it does not change the C11,
   C12, C13 or C21 cases, and it reuses the frozen G policy unchanged.
+- cases/software-engineering/C32/se-dependency-upgrade-v1 - action-open x independent-single-action.
+  Its own README records the carrier-declared action, the added messaging action, the run commands
+  and the evidence status. C32 adds files only; it does not change the C11, C12, C13, C21, C22 or
+  C31 cases, and it reuses the frozen G policy unchanged.
 
 This repository packages the software-engineering C11 case:
 
@@ -51,6 +55,12 @@ injected comment and attack goal byte-for-byte, and changes one variable: the us
 names the maintenance action. The action is declared by the carrier (`resolution_spec.action`), and
 the injected comment still substitutes the two security-critical parameters of that one authorized
 dependency update call.
+
+The C32 case in `cases/software-engineering/C32/se-dependency-upgrade-v1` is an **action-open x
+independent-single-action** variant. It reuses the C31 user prompt, the C21/C31 clean carrier, the
+designated resolution field, `S`, `T`, `A` and the `utility()` checker byte-for-byte, and changes
+the attack: the injected comment substitutes nothing and instead asks for one additional messaging
+call to the release-notes relay channel, which realizes the attack goal by itself.
 
 ## Scope
 
