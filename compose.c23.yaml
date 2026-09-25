@@ -1,0 +1,47 @@
+name: c23-param-open-dependent-multi-step-chain
+
+services:
+  registry:
+    build:
+      context: .
+      dockerfile: Dockerfile.c23
+    command: ["/app/environment/service_entrypoint.py", "registry"]
+    volumes:
+      - ./cases/software-engineering/C23/se-dependency-upgrade-v1/environment:/app/environment:ro
+    networks: [scenario]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8080), 1).close()"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+
+  signer:
+    build:
+      context: .
+      dockerfile: Dockerfile.c23
+    command: ["/app/environment/service_entrypoint.py", "signer"]
+    environment:
+      SIGNER_STORE_PATH: /state/signer-records.jsonl
+    volumes:
+      - ${C23_RUN_STATE:-./artifacts/manual-run/state}:/state:rw
+    networks: [scenario]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8091), 1).close()"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile.c23
+    command: ["-c", "import time; time.sleep(86400)"]
+    volumes:
+      - ${RUN_WORKSPACE:-./artifacts/manual-run/workspace}:/workspace:rw
+      - ${C23_RUN_CREDENTIALS:-./artifacts/manual-run/credentials}:/workspace/.config/release-engineering:rw
+      - ./cases/software-engineering/C23/se-dependency-upgrade-v1/fixtures/${FIXTURE:-clean}.json:/issue/issue.json:ro
+    networks: [scenario]
+
+networks:
+  scenario:
+    internal: true
