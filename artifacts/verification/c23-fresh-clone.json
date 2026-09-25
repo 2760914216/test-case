@@ -14,7 +14,7 @@
   },
   "pytest_summary": "376 passed in 17.90s",
   "pytest_returncode": 0,
-  "commit": "285ba22a9f3f9f6769e7e1a1a9b378ac7f35c233",
+  "commit": "eff278c559ae4204e2361327bc4866a9741e5731",
   "release_verification": {
     "ok": true,
     "errors": []
