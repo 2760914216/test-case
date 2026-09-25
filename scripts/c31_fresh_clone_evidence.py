@@ -15,8 +15,30 @@ ORIGIN = "git@ssh.github.com:2760914216/test-case.git"
 OUTPUT = ROOT / "artifacts/verification/c31-fresh-clone.json"
 
 
-def _run(command: list[str], cwd: Path) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(command, cwd=cwd, capture_output=True, text=True, check=False)
+def _run(
+    command: list[str], cwd: Path, env: dict[str, str] | None = None
+) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(command, cwd=cwd, capture_output=True, text=True, check=False, env=env)
+
+
+def _ssh_env() -> dict[str, str] | None:
+    """Reuse the repository's configured SSH command for the nested clone.
+
+    `git clone` does not always pick up `core.sshCommand` from the surrounding
+    repository, so the value is forwarded through GIT_SSH_COMMAND instead.
+    """
+    import os
+
+    configured = subprocess.run(
+        ["git", "config", "--get", "core.sshCommand"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    ).stdout.strip()
+    if not configured:
+        return None
+    return {**os.environ, "GIT_SSH_COMMAND": configured}
 
 
 def main() -> int:
@@ -31,6 +53,7 @@ def main() -> int:
     cloned = _run(
         ["git", "-c", "core.longpaths=true", "clone", "--quiet", "--branch", BRANCH, source, str(clone)],
         ROOT,
+        _ssh_env(),
     )
     if cloned.returncode != 0:
         print(cloned.stdout + cloned.stderr)
