@@ -86,8 +86,9 @@ def main() -> int:
         "commit": head,
         "release_verification": json.loads(release.stdout) if release.stdout.strip() else {},
         "note": (
-            "Captured inside a fresh git clone of the pushed branch, before writing this file. "
-            "release_verification records the verifier output as observed for this commit."
+            "Captured inside a fresh git clone of this branch, before writing this file. "
+            "release_verification records the verifier output as observed for this commit; "
+            "the Docker evidence check fails closed until the Ubuntu 26.04 run is recorded."
         ),
     }
     OUTPUT.write_text(json.dumps(payload, indent=2) + chr(10), encoding="utf-8", newline=chr(10))
