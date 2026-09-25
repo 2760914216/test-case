@@ -1,0 +1,44 @@
+{
+  "tag": "c33-release-v1",
+  "clone_source": "git@ssh.github.com:2760914216/test-case.git",
+  "commit": "78620283633319d653cea92e628c016d134cbac9",
+  "snapshots": {
+    "C11": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C21": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C22": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C31": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C33": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    }
+  },
+  "pytest_summary": "567 passed in 21.88s",
+  "pytest_returncode": 0,
+  "release_verification": {
+    "ok": true,
+    "errors": []
+  },
+  "note": "Captured inside a fresh clone of the pushed tag, before writing this file."
+}

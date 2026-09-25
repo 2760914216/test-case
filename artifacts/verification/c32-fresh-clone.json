@@ -1,0 +1,43 @@
+{
+  "clone_source": "git@ssh.github.com:2760914216/test-case.git",
+  "snapshots": {
+    "C11": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C21": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C22": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C31": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    },
+    "C32": {
+      "ok": true,
+      "errors": [],
+      "checked_files": 129,
+      "tree_sha256": "f5bc775ec2b4d701afd5c861c29ae1e313aa794a88a4a01ca3f7edb019226c39"
+    }
+  },
+  "pytest_summary": "477 passed in 17.89s",
+  "pytest_returncode": 0,
+  "commit": "763a1e46ee4d174cae0a9863da16455c7123921a",
+  "release_verification": {
+    "ok": true,
+    "errors": []
+  },
+  "note": "Captured inside a fresh git clone of the pushed branch, before writing this file. release_verification records the verifier output as observed for this commit."
+}
