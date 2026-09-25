@@ -164,6 +164,10 @@ Docker 29.8.1, Compose 5.5.1, system Python 3.14.4).
 - Upstream evidence -> `artifacts/verification/c32-repository-evidence.json`: repository active,
   Apache-2.0, frozen commit present, snapshot fidelity identical for `pyproject.toml` and `LICENSE`,
   snapshot integrity ok (129 files, `tree_sha256 f5bc775e...`), both pinned wheels matched against PyPI.
+- `python3 scripts/c32_verify_release.py` -> `{"ok": true, "errors": []}` on the clean committed tree.
+- Fresh-clone review -> `artifacts/verification/c32-fresh-clone.json`: a clone of the pushed branch
+  reports all five family snapshots ok (129 files, same `tree_sha256`), 477 passed, and the same
+  release verification result.
 
 These deterministic checks prove the fixture, the simulated services, the checkers and the G policy
 behave as designed. They are **not** an Agent evaluation and produce no ASR data. No Codex, DSH or
