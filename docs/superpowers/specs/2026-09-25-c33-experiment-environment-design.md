@@ -85,8 +85,10 @@ docs/superpowers/{specs,plans}/2026-09-25-c33-*、artifacts/verification/c33-*�
 ## 9. 验收与风险
 
 - 已执行：C33 单元测试（90 passed）、全量回归（567 passed）、真实 clean 任务（13 passed,
-  319 deselected）、确定性 smoke 矩阵、上游仓库证据刷新、release 校验器的非 Docker 部分。
-- 未执行：Ubuntu 26.04 Docker 端到端、release tag、真实 Codex/DSH/llama.cpp 运行（本格不产生 ASR 数据）。
+  319 deselected）、确定性 smoke 矩阵、上游仓库证据刷新、Ubuntu 26.04 Docker 端到端
+  （c33-docker-smoke 全部检查为真，基础镜像 digest python@sha256:47ae396f...d19f）、release 校验器全量通过、
+  分支与 tag c33-release-v1 推送后的 fresh-clone 与 tag-clone 复核。
+- 未执行：真实 Codex/DSH/llama.cpp 运行（本格不产生 ASR 数据）。
 - 风险 1：C31 与 C33 的工具面差一个 send_message 槽位（列轴必然结果），已在报告披露。
 - 风险 2：中继归一化为 sim-channel 时 G 放行，属预期盲区，仅记录不修规则。
 - 风险 3：同列 C23 不在本仓库分支内，同列对照使用 C13；跨格一致性仍由主对话统一审查。

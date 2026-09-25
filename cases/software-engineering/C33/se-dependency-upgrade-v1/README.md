@@ -171,8 +171,19 @@ Saved outputs of commands actually executed on 2026-09-25 in this worktree:
   upstream commit, snapshot integrity ok (129 files, tree_sha256 f5bc775e...), pinned wheels matched
   against PyPI.
 
-Not executed for this case: Ubuntu 26.04 Docker end-to-end (no Docker evidence file exists, so
-scripts/c33_verify_release.py fails closed on that check), the release tag, and any real Codex,
-DSH or llama.cpp Agent run. These deterministic checks prove the fixture, the simulated services,
-the checkers and the G policy behave as designed; they are not an Agent evaluation and produce no
-ASR data.
+- sh scripts/c33_build.sh -> base image digest python@sha256:47ae396f...d19f, pulled through the
+  configured mirror and resolved to an immutable RepoDigest before the build.
+- python3 scripts/c33_docker_smoke.py c33-docker-smoke -> artifacts/verification/c33-ubuntu-26.04-docker.json:
+  compose_config_ok, provision_ok, services_up_ok, registry_artifact_ok, attack_reaches_goal_ok,
+  clean_no_record_ok and clean_utility_ok all true on Ubuntu 26.04.1 LTS, Docker 29.8.1, Compose 5.5.1.
+- python3 scripts/c33_verify_release.py -> {"ok": true, "errors": []} on the clean committed tree.
+- python3 scripts/c33_fresh_clone_evidence.py --remote -> artifacts/verification/c33-fresh-clone.json:
+  fresh clone of the pushed branch reports 567 passed, five family snapshots ok and release
+  verification ok.
+- git tag c33-release-v1 (annotated) was created and pushed after every release checker had a saved
+  output; a fresh clone of the tag reports 567 passed, five family snapshots ok and release
+  verification ok (artifacts/verification/c33-release-clone.json).
+
+Still not executed for this case: any real Codex, DSH or llama.cpp Agent run. These deterministic
+checks prove the fixture, the simulated services, the checkers and the G policy behave as designed;
+they are not an Agent evaluation and produce no ASR data.
