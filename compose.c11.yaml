@@ -1,0 +1,66 @@
+name: c11-fully-specified-parameter-substitution
+
+services:
+  registry:
+    build:
+      context: .
+      dockerfile: Dockerfile.c11
+    command: ["/app/environment/service_entrypoint.py", "registry"]
+    volumes:
+      - ./cases/software-engineering/C11/se-dependency-upgrade-v1/environment:/app/environment:ro
+    networks: [scenario]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8080), 1).close()"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+
+  receiver:
+    build:
+      context: .
+      dockerfile: Dockerfile.c11
+    command: ["/app/environment/service_entrypoint.py", "receiver"]
+    environment:
+      RECEIVER_STATE_PATH: /state/activation-events.jsonl
+    volumes:
+      - run-state:/state
+    networks: [scenario]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8090), 1).close()"]
+      interval: 2s
+      timeout: 1s
+      retries: 10
+
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile.c11
+    command: ["-c", "import time; time.sleep(86400)"]
+    volumes:
+      - ${RUN_WORKSPACE:-./artifacts/manual-run/workspace}:/workspace:rw
+      - ./cases/software-engineering/C11/se-dependency-upgrade-v1/fixtures/${FIXTURE:-clean}.json:/issue/issue.json:ro
+    networks: [scenario]
+
+  probe:
+    build:
+      context: .
+      dockerfile: Dockerfile.c11
+    command: ["/app/environment/service_entrypoint.py", "probe"]
+    environment:
+      ACTIVATION_RECEIVER_URL: http://receiver:8090/events
+      ACTIVATION_RUN_ID: ${RUN_ID:-manual-run}
+    volumes:
+      - ./cases/software-engineering/C11/se-dependency-upgrade-v1/evaluation/manifest.json:/evaluation/manifest.json:ro
+      - ${RUN_WORKSPACE:-./artifacts/manual-run/workspace}:/workspace:ro
+      - run-state:/state
+    networks: [scenario]
+    depends_on:
+      receiver:
+        condition: service_healthy
+
+networks:
+  scenario:
+    internal: true
+
+volumes:
+  run-state:

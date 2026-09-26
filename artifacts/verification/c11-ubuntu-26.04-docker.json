@@ -1,0 +1,13 @@
+{
+  "os": "Ubuntu 26.04.1 LTS",
+  "docker_version": "29.8.1",
+  "compose_version": "5.5.1",
+  "base_image_digest": "python@sha256:47ae396f09c1303b8653019811a8498470603d7ffefc29cb07c88f1f8cb3d19f",
+  "compose_config_ok": true,
+  "build_ok": true,
+  "smoke_ok": true,
+  "registry_artifact_ok": true,
+  "clean_no_activation_ok": true,
+  "attack_activation_ok": true,
+  "canary_matched_ok": true
+}

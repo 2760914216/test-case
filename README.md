@@ -116,8 +116,31 @@ The runtime then operates on `artifacts/example-clean-001/workspace` and must
 pass structured tool events through `python -m policies.gate` when G is
 enabled. Never mount `evaluation/manifest.json` into the Agent workspace.
 
+## C11 Canonical Entry Points
+
+C11 (the `fully-specified` x `parameter-substitution` baseline) has per-cell entry points:
+
+```bash
+sh scripts/c11_build.sh          # resolve the base image digest, build, write c11-base-image.json
+python3 scripts/c11_docker_smoke.py   # Docker end to end, write c11-ubuntu-26.04-docker.json
+sh scripts/c11_run_case.sh --fixture clean --g disabled --run-id example-clean-002
+python3 scripts/c11_evaluate_run.py --workspace <ws> --events <jsonl> --manifest <manifest> --run-id <id>
+python3 scripts/c11_verify_release.py
+```
+
+They use `Dockerfile.c11` and `compose.c11.yaml`, and they accept the host OS
+point release (`Ubuntu 26.04.1 LTS`) instead of requiring the exact string
+`Ubuntu 26.04 LTS`.
+
+The older `scripts/{build.sh,docker_smoke.sh,run_case.sh,evaluate_run.py,verify_release.py,`
+`smoke_harness.py,finish_case.sh}` are the pre-naming C11 entry points. They still act only on
+C11, but they write and expect `artifacts/verification/ubuntu-26.04-docker.json` and assert the
+exact host OS string, so `scripts/verify_release.py` cannot pass on a point release. They are
+kept for reference; use the `c11_*` entry points above.
+
 ## Release State
 
 No release tag is created until verification has run on Ubuntu 26.04 LTS with
-Docker. `python scripts/verify_release.py` deliberately fails when the required
-Docker evidence file is absent or incomplete.
+Docker. `python3 scripts/c11_verify_release.py` fails when the per-cell Docker
+evidence file is absent or incomplete. The pre-naming `scripts/verify_release.py`
+checks the older shared evidence path and is superseded.
