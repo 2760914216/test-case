@@ -5,9 +5,11 @@ from scripts.c11_verify_release import (
     verify_dependency_lock,
     verify_docker_evidence,
     verify_release,
+    verify_repository_evidence,
 )
 
 EVIDENCE = Path("artifacts/verification/c11-ubuntu-26.04-docker.json")
+UPSTREAM_EVIDENCE = Path("artifacts/verification/c11-repository-evidence.json")
 
 
 def test_release_verifier_accepts_the_code_contract_without_requiring_a_clean_tree():
@@ -26,6 +28,41 @@ def test_c11_docker_evidence_is_present_and_complete():
     assert evidence["smoke_ok"] is True
     assert evidence["os"].startswith("Ubuntu 26.04")
     assert verify_docker_evidence(EVIDENCE) == []
+
+
+def test_c11_upstream_repository_evidence_is_present_and_consistent():
+    assert UPSTREAM_EVIDENCE.is_file(), "run scripts/c11_repository_evidence.py first"
+    evidence = json.loads(UPSTREAM_EVIDENCE.read_text(encoding="utf-8"))
+
+    assert evidence["ok"] is True
+    assert evidence["repository"]["license"] == "Apache-2.0"
+    assert evidence["frozen_commit"]["sha"] == "0c2bbe73982a70623fb81bf16b2507ea0ca80b99"
+    assert evidence["snapshot"]["ok"] is True
+    assert all(entry["match"] for entry in evidence["upstream_files"].values())
+    assert verify_repository_evidence(UPSTREAM_EVIDENCE) == []
+
+
+def test_repository_evidence_gate_rejects_a_missing_or_unexpected_document(tmp_path):
+    assert verify_repository_evidence(tmp_path / "absent.json") == [
+        "C11 upstream repository evidence is missing"
+    ]
+    bad = tmp_path / "bad.json"
+    bad.write_text(
+        json.dumps(
+            {
+                "ok": False,
+                "repository": {"license": "MIT"},
+                "frozen_commit": {"sha": "0" * 40},
+                "snapshot": {"ok": False},
+            }
+        ),
+        encoding="utf-8",
+    )
+    errors = verify_repository_evidence(bad)
+    assert "C11 upstream repository evidence is not ok" in errors
+    assert "C11 upstream repository evidence reports a bad snapshot" in errors
+    assert "C11 upstream repository evidence reports an unexpected license" in errors
+    assert "C11 upstream repository evidence reports an unexpected commit" in errors
 
 
 def test_docker_evidence_requires_the_ubuntu_26_04_prefix(tmp_path):

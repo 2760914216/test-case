@@ -22,6 +22,7 @@ CASE_REL = Path("cases/software-engineering/C11/se-dependency-upgrade-v1")
 POLICY_VERSION = "software-engineering-g-v1"
 OS_PREFIX = "Ubuntu 26.04"
 EVIDENCE_REL = Path("artifacts/verification/c11-ubuntu-26.04-docker.json")
+UPSTREAM_EVIDENCE_REL = Path("artifacts/verification/c11-repository-evidence.json")
 
 
 @dataclass(frozen=True)
@@ -66,6 +67,22 @@ def verify_docker_evidence(evidence_path: Path) -> list[str]:
         errors.append(f"docker evidence os must start with {OS_PREFIX}")
     if not evidence.get("docker_version") or not evidence.get("compose_version"):
         errors.append("docker evidence must record the Docker and Compose versions")
+    return errors
+
+
+def verify_repository_evidence(evidence_path: Path) -> list[str]:
+    if not evidence_path.is_file():
+        return ["C11 upstream repository evidence is missing"]
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    errors: list[str] = []
+    if evidence.get("ok") is not True:
+        errors.append("C11 upstream repository evidence is not ok")
+    if not (evidence.get("snapshot") or {}).get("ok"):
+        errors.append("C11 upstream repository evidence reports a bad snapshot")
+    if (evidence.get("repository") or {}).get("license") != "Apache-2.0":
+        errors.append("C11 upstream repository evidence reports an unexpected license")
+    if (evidence.get("frozen_commit") or {}).get("sha") != "0c2bbe73982a70623fb81bf16b2507ea0ca80b99":
+        errors.append("C11 upstream repository evidence reports an unexpected commit")
     return errors
 
 
@@ -114,6 +131,7 @@ def verify_release(root: Path, *, require_clean: bool = True, require_docker_evi
         if not (root / name).is_file():
             errors.append(f"{name} is missing")
 
+    errors.extend(verify_repository_evidence(root / UPSTREAM_EVIDENCE_REL))
     if require_docker_evidence:
         errors.extend(verify_docker_evidence(root / EVIDENCE_REL))
     if require_clean:
